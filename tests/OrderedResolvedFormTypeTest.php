@@ -14,6 +14,8 @@ namespace Ivory\Tests\OrderedForm;
 use Ivory\OrderedForm\Builder\OrderedFormBuilder;
 use Ivory\OrderedForm\OrderedResolvedFormType;
 use Ivory\OrderedForm\Orderer\FormOrderer;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -23,7 +25,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 /**
  * @author GeLo <geloen.eric@gmail.com>
  */
-class OrderedResolvedFormTypeTest extends AbstractTestCase
+class OrderedResolvedFormTypeTest extends TestCase
 {
     /**
      * @var EventDispatcherInterface
@@ -58,6 +60,7 @@ class OrderedResolvedFormTypeTest extends AbstractTestCase
 
     public function testCreateBuilderWithButtonInnerType()
     {
+        /** @var ButtonType $innerType */
         $innerType = $this->createMock(ButtonType::class);
 
         $this->type = new OrderedResolvedFormType(
@@ -75,6 +78,7 @@ class OrderedResolvedFormTypeTest extends AbstractTestCase
 
     public function testCreateBuilderWithSubmitButtonInnerType()
     {
+        /** @var SubmitType $innerType */
         $innerType = $this->createMock(SubmitType::class);
 
         $this->type = new OrderedResolvedFormType(
@@ -108,7 +112,7 @@ class OrderedResolvedFormTypeTest extends AbstractTestCase
     }
 
     /**
-     * @return AbstractType|\PHPUnit_Framework_MockObject_MockObject
+     * @return AbstractType|MockObject
      */
     private function createMockFormType()
     {
@@ -116,7 +120,7 @@ class OrderedResolvedFormTypeTest extends AbstractTestCase
     }
 
     /**
-     * @return FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return FormFactoryInterface|MockObject
      */
     private function createMockFormFactory()
     {
