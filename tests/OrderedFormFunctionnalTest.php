@@ -65,18 +65,14 @@ class OrderedFormFunctionnalTest extends TestCase
 
     /**
      * @param array       $config
-     * @param string|null $exceptionMessage
+     * @param string $exceptionMessage
      *
      * @dataProvider getInvalidPositions
      */
-    public function testInvalidPosition(array $config, $exceptionMessage = null)
+    public function testInvalidPosition(array $config, $exceptionMessage)
     {
-        $exceptionName = OrderedConfigurationException::class;
-
-        $this->expectException($exceptionName);
-        if ($exceptionMessage !== null) {
-            $this->expectExceptionMessage($exceptionMessage);
-        }
+        $this->expectException(OrderedConfigurationException::class);
+        $this->expectExceptionMessage($exceptionMessage);
 
         $this->createForm($config)->createView();
     }

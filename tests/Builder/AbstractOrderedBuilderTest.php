@@ -15,6 +15,7 @@ use Ivory\OrderedForm\Builder\OrderedFormConfigBuilderInterface;
 use Ivory\OrderedForm\Exception\OrderedConfigurationException;
 use Ivory\OrderedForm\OrderedFormConfigInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Form\Exception\BadMethodCallException;
 
 /**
  * @author GeLo <geloen.eric@gmail.com>
@@ -47,12 +48,11 @@ abstract class AbstractOrderedBuilderTest extends TestCase
         $this->assertNull($this->builder->getPosition());
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage The config builder cannot be modified anymore.
-     */
     public function testLockedPosition()
     {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('The config builder cannot be modified anymore.');
+
         $config = $this->builder->getFormConfig();
         $config->setPosition('first');
     }
@@ -94,6 +94,7 @@ abstract class AbstractOrderedBuilderTest extends TestCase
     {
         $this->expectException(OrderedConfigurationException::class);
         $this->expectExceptionMessage('The "foo" form uses position as string which can only be "first" or "last" (current: "foo").');
+
         $this->builder->setPosition('foo');
     }
 
@@ -101,6 +102,7 @@ abstract class AbstractOrderedBuilderTest extends TestCase
     {
         $this->expectException(OrderedConfigurationException::class);
         $this->expectExceptionMessage('The "foo" form uses position as array or you must define the "before" or "after" option (current: "bar").');
+
         $this->builder->setPosition(['bar' => 'baz']);
     }
 }

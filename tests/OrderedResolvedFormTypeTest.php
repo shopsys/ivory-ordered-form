@@ -21,6 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormTypeInterface;
 
 /**
  * @author GeLo <geloen.eric@gmail.com>
@@ -38,23 +39,21 @@ class OrderedResolvedFormTypeTest extends TestCase
     private $factory;
 
     /**
-     * @var OrderedResolvedFormType
-     */
-    private $type;
-
-    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->factory = $this->createMock(FormFactoryInterface::class);
+    }
 
-        $this->type = new OrderedResolvedFormType(
+    private function getOrderedResolvedFormTypeByFormType(FormTypeInterface $formType): OrderedResolvedFormType
+    {
+        return new OrderedResolvedFormType(
             new FormOrderer(),
-            $this->createMockFormType(),
+            $formType,
             [],
-            new OrderedResolvedFormType(new FormOrderer(), $this->createMockFormType())
+            new OrderedResolvedFormType(new FormOrderer(), $formType)
         );
     }
 
@@ -62,17 +61,11 @@ class OrderedResolvedFormTypeTest extends TestCase
     {
         /** @var ButtonType $innerType */
         $innerType = $this->createMock(ButtonType::class);
-
-        $this->type = new OrderedResolvedFormType(
-            new FormOrderer(),
-            $innerType,
-            [],
-            new OrderedResolvedFormType(new FormOrderer(), $innerType)
-        );
+        $type = $this->getOrderedResolvedFormTypeByFormType($innerType);
 
         $this->assertInstanceOf(
             'Ivory\OrderedForm\Builder\OrderedButtonBuilder',
-            $this->type->createBuilder($this->createMockFormFactory(), 'name')
+            $type->createBuilder($this->createMockFormFactory(), 'name')
         );
     }
 
@@ -80,43 +73,24 @@ class OrderedResolvedFormTypeTest extends TestCase
     {
         /** @var SubmitType $innerType */
         $innerType = $this->createMock(SubmitType::class);
-
-        $this->type = new OrderedResolvedFormType(
-            new FormOrderer(),
-            $innerType,
-            [],
-            new OrderedResolvedFormType(new FormOrderer(), $innerType)
-        );
+        $type = $this->getOrderedResolvedFormTypeByFormType($innerType);
 
         $this->assertInstanceOf(
             'Ivory\OrderedForm\Builder\OrderedSubmitButtonBuilder',
-            $this->type->createBuilder($this->createMockFormFactory(), 'name')
+            $type->createBuilder($this->createMockFormFactory(), 'name')
         );
     }
 
     public function testCreateBuilderWithFormInnerType()
     {
-        $innerType = $this->createMockFormType();
-
-        $this->type = new OrderedResolvedFormType(
-            new FormOrderer(),
-            $innerType,
-            [],
-            new OrderedResolvedFormType(new FormOrderer(), $innerType)
-        );
+        /** @var AbstractType $innerType */
+        $innerType = $this->createMock(AbstractType::class);
+        $type = $this->getOrderedResolvedFormTypeByFormType($innerType);
 
         $this->assertInstanceOf(
             OrderedFormBuilder::class,
-            $this->type->createBuilder($this->createMockFormFactory(), 'name')
+            $type->createBuilder($this->createMockFormFactory(), 'name')
         );
-    }
-
-    /**
-     * @return AbstractType|MockObject
-     */
-    private function createMockFormType()
-    {
-        return $this->createMock(AbstractType::class);
     }
 
     /**
