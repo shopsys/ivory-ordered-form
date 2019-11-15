@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/shopsys/ordered-form/downloads.svg)](https://packagist.org/packages/shopsys/ordered-form)
 [![License](https://poser.pugx.org/shopsys/ordered-form/license.svg)](https://packagist.org/packages/shopsys/ordered-form)
 
-The library allows to order your Symfony2 form fields by adding the position option. A position can either be first,
+The library allows to order your Symfony Form fields by adding the position option. A position can either be first,
 last or an associative array describing before and/or after field.
 
 ## Documentation

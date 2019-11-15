@@ -1,6 +1,6 @@
 {
     "name": "shopsys/ordered-form",
-    "description": "Provides a form ordering support with the Symfony 3 and 4 form component.",
+    "description": "Provides a form ordering support with the Symfony Form component.",
     "keywords": [ "symfony", "form", "order" ],
     "license": "MIT",
     "authors": [
