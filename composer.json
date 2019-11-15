@@ -1,7 +1,7 @@
 {
-    "name": "egeloen/ordered-form",
+    "name": "shopsys/ordered-form",
     "description": "Provides a form ordering support with the Symfony 3 and 4 form component.",
-    "keywords": [ "symfony2", "form", "order" ],
+    "keywords": [ "symfony", "form", "order" ],
     "license": "MIT",
     "authors": [
         {
