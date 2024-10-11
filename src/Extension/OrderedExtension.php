@@ -21,7 +21,7 @@ class OrderedExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    protected function loadTypeExtensions()
+    protected function loadTypeExtensions(): array
     {
         return [
             new OrderedFormExtension(),
